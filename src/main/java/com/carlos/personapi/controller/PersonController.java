@@ -1,15 +1,24 @@
 package com.carlos.personapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.carlos.personapi.entities.Person;
+import com.carlos.personapi.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/people")
 public class PersonController {
+    private PersonRepository personRepository;
 
-    @GetMapping
-    public String getBook(){
+    @Autowired
+    public PersonController(PersonRepository personRepository){
+        this.personRepository = personRepository;
+    }
+
+    @PostMapping
+    public String createPerson(@RequestBody Person person)
+    {
+        personRepository.save(person);
         return "API test";
     }
 }
