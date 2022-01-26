@@ -4,11 +4,13 @@ import com.carlos.personapi.dto.mapper.PersonMapper;
 import com.carlos.personapi.dto.request.PersonDTO;
 import com.carlos.personapi.dto.response.MessageResponseDTO;
 import com.carlos.personapi.entities.Person;
+import com.carlos.personapi.exception.PersonNotFoundException;
 import com.carlos.personapi.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +43,13 @@ public class PersonService {
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+       Person person =  personRepository.findById(id)
+                .orElseThrow(()->new PersonNotFoundException(id));
+
+        return personMapper.toDTO(person);
+    }
 }
 /*
  sem map struct
@@ -53,3 +62,7 @@ public class PersonService {
                 .build();
 
  */
+ /*Optional<Person> optionalPerson = personRepository.findById(id);
+        if(optionalPerson.isEmpty()){
+            throw new PersonNotFoundException(id);
+        }*/
