@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public class PersonMapper {
+
     PersonMapper INSTANCE = Mappers.getMapper(PersonMapper.class);
 
     @Mapping(target ="birthDate", source = "birthDate", dateFormat = "dd-mm-yyyy");
